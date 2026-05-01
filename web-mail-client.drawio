@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="GC0Sll4rMZKJvzhlXn5U">
+    <mxGraphModel dx="1414" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;align=left;verticalAlign=top;spacing=10;" value="User&#xa;------------------------&#xa;id: UUID&#xa;email: String&#xa;firstName: String&#xa;lastName: String&#xa;password: String" vertex="1">
+          <mxGeometry height="170" width="260" x="420" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mail" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;align=left;verticalAlign=top;spacing=10;" value="Mail&lt;br&gt;------------------------&lt;br&gt;id: UUID&lt;br&gt;ownerId: UUID&lt;br&gt;sender: String&lt;div&gt;to: List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;cc: List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;bcc: List&amp;lt;String&amp;gt;&lt;/div&gt;&lt;div&gt;subject: String&lt;br&gt;body: String&lt;br&gt;status: MailStatus&lt;br&gt;createdAt: Instant&lt;br&gt;sentAt: Instant?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="300" x="420" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="attachment" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;align=left;verticalAlign=top;spacing=10;" value="Attachment&lt;br&gt;------------------------&lt;br&gt;id: UUID&lt;br&gt;mailId: UUID&lt;br&gt;fileName: String&lt;br&gt;mimeType: String&lt;br&gt;size: Long&lt;div&gt;storagePath: String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="280" x="420" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="status" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;align=left;verticalAlign=top;spacing=10;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;br&gt;MailStatus&lt;br&gt;------------------------&lt;br&gt;DRAFT&lt;br&gt;SENT&lt;br&gt;RECEIVED" vertex="1">
+          <mxGeometry height="140" width="230" x="820" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="user-mail-edge" edge="1" parent="1" source="user" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" target="mail" value="owns">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mail-attachment-edge" edge="1" parent="1" source="mail" style="endArrow=none;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" target="attachment" value="contains">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mail-status-edge" edge="1" parent="1" source="mail" style="endArrow=open;html=1;rounded=0;dashed=1;" target="status" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mult-user-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" value="1" vertex="1">
+          <mxGeometry height="20" width="30" x="535" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="mult-mail-many" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" value="*" vertex="1">
+          <mxGeometry height="20" width="30" x="535" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="mult-mail-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" value="1" vertex="1">
+          <mxGeometry height="20" width="30" x="535" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="mult-attachment-many" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=14;" value="*" vertex="1">
+          <mxGeometry height="20" width="30" x="535" y="650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
