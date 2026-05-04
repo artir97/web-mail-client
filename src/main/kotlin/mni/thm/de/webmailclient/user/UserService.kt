@@ -1,5 +1,5 @@
 package mni.thm.de.webmailclient.user
-
+import mni.thm.de.webmailclient.user.dto.UserUpdate
 import org.springframework.stereotype.Service
 
 @Service
@@ -21,6 +21,18 @@ class UserService(
 
     fun findById(id: java.util.UUID): User? {
         return userRepository.findById(id)
+    }
+
+    fun update(id: java.util.UUID, userUpdate: UserUpdate): User? {
+        val existingUser = userRepository.findById(id) ?: return null
+
+        val updatedUser = existingUser.copy(
+            email = userUpdate.email.trim(),
+            firstName = userUpdate.firstName.trim(),
+            lastName = userUpdate.lastName.trim(),
+        )
+
+        return userRepository.update(id, updatedUser)
     }
 
 }
