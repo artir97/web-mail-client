@@ -5,6 +5,7 @@ import mni.thm.de.webmailclient.user.dto.UserCreate
 import mni.thm.de.webmailclient.user.dto.UserOutput
 import mni.thm.de.webmailclient.user.dto.UserUpdate
 import mni.thm.de.webmailclient.user.dto.toOutput
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,5 +46,12 @@ class UserController(private val userService: UserService) {
         @Valid @RequestBody userUpdate: UserUpdate,
     ): UserOutput? {
         return userService.updateById(id, userUpdate)?.toOutput()
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteUserById(
+        @PathVariable id: UUID
+    ): Boolean {
+        return userService.deleteById(id)
     }
 }

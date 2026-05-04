@@ -34,5 +34,10 @@ class UserRepository {
         return updatedUser
     }
 
+    fun deleteById(id: java.util.UUID): Boolean {
+        val user = findById(id) ?: return false
+        return userStorage.remove(user)
+    }
+
 
 }

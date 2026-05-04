@@ -35,4 +35,8 @@ class UserService(
         return userRepository.updateById(id, updatedUser)
     }
 
+    fun deleteById(id: java.util.UUID): Boolean {
+        return userRepository.deleteById(id)
+    }
+
 }
