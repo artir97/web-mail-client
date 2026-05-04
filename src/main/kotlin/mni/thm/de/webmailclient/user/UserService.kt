@@ -23,7 +23,7 @@ class UserService(
         return userRepository.findById(id)
     }
 
-    fun update(id: java.util.UUID, userUpdate: UserUpdate): User? {
+    fun updateById(id: java.util.UUID, userUpdate: UserUpdate): User? {
         val existingUser = userRepository.findById(id) ?: return null
 
         val updatedUser = existingUser.copy(
@@ -32,7 +32,7 @@ class UserService(
             lastName = userUpdate.lastName.trim(),
         )
 
-        return userRepository.update(id, updatedUser)
+        return userRepository.updateById(id, updatedUser)
     }
 
 }

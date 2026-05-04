@@ -25,7 +25,7 @@ class UserRepository {
         return userStorage.find { it.id == id }
     }
 
-    fun update(id: java.util.UUID, updatedUser: User): User? {
+    fun updateById(id: java.util.UUID, updatedUser: User): User? {
         val existingUser = findById(id) ?: return null
 
         userStorage.remove(existingUser)
@@ -33,4 +33,6 @@ class UserRepository {
 
         return updatedUser
     }
+
+
 }

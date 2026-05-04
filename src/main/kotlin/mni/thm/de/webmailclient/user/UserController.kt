@@ -40,10 +40,10 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/{id}")
-    fun updateUser(
+    fun updateUserById(
         @PathVariable id: UUID,
         @Valid @RequestBody userUpdate: UserUpdate,
     ): UserOutput? {
-        return userService.update(id, userUpdate)?.toOutput()
+        return userService.updateById(id, userUpdate)?.toOutput()
     }
 }
