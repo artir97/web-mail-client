@@ -28,4 +28,12 @@ class MailController(
     ): Set<MailOutput> {
         return mailService.findAllByUserId(userId)
     }
+
+    @GetMapping("/{mailId}")
+    fun findById(
+        @PathVariable userId: UUID,
+        @PathVariable mailId: UUID
+    ): MailOutput {
+        return mailService.findById(userId, mailId)
+    }
 }

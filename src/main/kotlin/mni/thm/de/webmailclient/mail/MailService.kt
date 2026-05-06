@@ -20,8 +20,6 @@ class MailService (
         return mailRepository.save(mail).toOutput()
     }
 
-
-
     fun findAllByUserId(userId: UUID): Set<MailOutput> {
         if (userRepository.findById(userId) == null) {
             throw IllegalArgumentException("User with id $userId not found")
@@ -31,5 +29,18 @@ class MailService (
             .toSet()
     }
 
+    fun findById(userId: UUID, mailId: UUID): MailOutput {
+        if (userRepository.findById(userId) == null) {
+            throw IllegalArgumentException("User with id $userId not found")
+        }
 
+        val mail = mailRepository.findById(mailId)
+            ?: throw IllegalArgumentException("Mail with id $mailId not found")
+
+        if (mail.ownerId != userId) {
+            throw IllegalArgumentException("Mail does not belong to user $userId")
+        }
+
+        return mail.toOutput()
+    }
 }
