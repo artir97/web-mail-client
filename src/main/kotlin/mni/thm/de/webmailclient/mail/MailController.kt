@@ -3,6 +3,7 @@ package mni.thm.de.webmailclient.mail
 import jakarta.validation.Valid
 import mni.thm.de.webmailclient.mail.dto.MailCreate
 import mni.thm.de.webmailclient.mail.dto.MailOutput
+import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
@@ -35,5 +36,14 @@ class MailController(
         @PathVariable mailId: UUID
     ): MailOutput {
         return mailService.findById(userId, mailId)
+    }
+
+    @PutMapping("/{mailId}")
+    fun updateDraft(
+        @PathVariable userId: UUID,
+        @PathVariable mailId: UUID,
+        @Valid @RequestBody mailUpdate: MailUpdate
+    ): MailOutput {
+        return mailService.updateDraft(userId, mailId, mailUpdate)
     }
 }

@@ -26,5 +26,12 @@ class MailRepository {
     fun deleteById(id: UUID): Boolean {
         return mails.removeIf { it.id == id }
     }
+    fun updateById(id: UUID, updatedMail: Mail): Mail? {
+        val existingMail = findById(id) ?: return null
 
+        mails.remove(existingMail)
+        mails.add(updatedMail)
+
+        return updatedMail
+    }
 }

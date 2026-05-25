@@ -2,6 +2,7 @@ package mni.thm.de.webmailclient.mail
 
 import mni.thm.de.webmailclient.mail.dto.MailCreate
 import mni.thm.de.webmailclient.mail.dto.MailOutput
+import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import mni.thm.de.webmailclient.mail.dto.toOutput
 import mni.thm.de.webmailclient.user.UserRepository
 import org.springframework.stereotype.Service
@@ -30,6 +31,27 @@ class MailService (
     }
 
     fun findById(userId: UUID, mailId: UUID): MailOutput {
+        return findMailOfUser(userId, mailId).toOutput()
+    }
+
+    fun updateDraft(userId: UUID, mailId: UUID, mailUpdate: MailUpdate): MailOutput {
+        val existingMail = findMailOfUser(userId, mailId)
+
+        val updatedMail = existingMail.copy(
+            sender = mailUpdate.sender,
+            to = mailUpdate.to,
+            cc = mailUpdate.cc,
+            bcc = mailUpdate.bcc,
+            subject = mailUpdate.subject,
+            body = mailUpdate.body,
+        )
+
+        return mailRepository.updateById(mailId, updatedMail)!!.toOutput()
+    }
+
+    // helper functions
+
+    private fun findMailOfUser(userId: UUID, mailId: UUID): Mail {
         if (userRepository.findById(userId) == null) {
             throw IllegalArgumentException("User with id $userId not found")
         }
@@ -41,6 +63,6 @@ class MailService (
             throw IllegalArgumentException("Mail does not belong to user $userId")
         }
 
-        return mail.toOutput()
+        return mail
     }
 }
