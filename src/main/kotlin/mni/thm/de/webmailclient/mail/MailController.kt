@@ -46,4 +46,13 @@ class MailController(
     ): MailOutput {
         return mailService.updateDraft(userId, mailId, mailUpdate)
     }
+
+    @DeleteMapping("/{mailId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteById(
+        @PathVariable userId: UUID,
+        @PathVariable mailId: UUID
+    ) {
+        mailService.deleteById(userId, mailId)
+    }
 }

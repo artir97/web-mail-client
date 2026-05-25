@@ -49,6 +49,16 @@ class MailService (
         return mailRepository.updateById(mailId, updatedMail)!!.toOutput()
     }
 
+    fun deleteById(userId: UUID, mailId: UUID) {
+        findMailOfUser(userId, mailId)
+
+        val deleted = mailRepository.deleteById(mailId)
+
+        if (!deleted) {
+            throw IllegalArgumentException("Mail with id $mailId could not be deleted")
+        }
+    }
+
     // helper functions
 
     private fun findMailOfUser(userId: UUID, mailId: UUID): Mail {
