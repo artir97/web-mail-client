@@ -1,0 +1,35 @@
+### Create user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "email": "max.mustermann@example.com",
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "password": "Password123!"
+}
+
+### Get all users
+GET http://localhost:8080/users
+
+### Create draft mail
+POST http://localhost:8080/users/{{userId}}/mails
+Content-Type: application/json
+
+{
+  "sender": "max.mustermann@example.com",
+  "to": ["anna@example.com"],
+  "cc": ["team@example.com"],
+  "bcc": [],
+  "subject": "Test Mail",
+  "body": "Hallo, das ist eine Test Mail."
+}
+
+### Get all mails of user
+GET http://localhost:8080/users/{{userId}}/mails
+
+### Send draft mail
+POST http://localhost:8080/users/{{userId}}/mails/{{mailId}}/send
+
+### Send same draft again - should fail
+POST http://localhost:8080/users/{{userId}}/mails/{{mailId}}/send

@@ -6,6 +6,7 @@ import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import mni.thm.de.webmailclient.mail.dto.toOutput
 import mni.thm.de.webmailclient.user.UserRepository
 import org.springframework.stereotype.Service
+import java.time.Instant
 import java.util.UUID
 
 @Service
@@ -57,6 +58,21 @@ class MailService (
         if (!deleted) {
             throw IllegalArgumentException("Mail with id $mailId could not be deleted")
         }
+    }
+
+    fun sendDraft(userId: UUID, mailId: UUID): MailOutput {
+        val mail = findMailOfUser(userId, mailId)
+
+        if (mail.status != MailStatus.DRAFT) {
+            throw IllegalStateException("Only draft mails can be sent")
+        }
+
+        val sentMail = mail.copy(
+            status = MailStatus.SENT,
+            sentAt = Instant.now(),
+        )
+
+        return mailRepository.updateById(mailId, sentMail)!!.toOutput()
     }
 
     // helper functions

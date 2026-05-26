@@ -3,7 +3,7 @@ package mni.thm.de.webmailclient.mail.dto
 import mni.thm.de.webmailclient.mail.Mail
 import mni.thm.de.webmailclient.mail.MailStatus
 import java.util.UUID
-import kotlin.time.Instant
+import java.time.Instant
 
 data class MailOutput(
     val id: UUID,

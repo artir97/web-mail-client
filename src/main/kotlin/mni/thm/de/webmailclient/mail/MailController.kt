@@ -5,6 +5,7 @@ import mni.thm.de.webmailclient.mail.dto.MailCreate
 import mni.thm.de.webmailclient.mail.dto.MailOutput
 import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
@@ -54,5 +55,14 @@ class MailController(
         @PathVariable mailId: UUID
     ) {
         mailService.deleteById(userId, mailId)
+    }
+
+    @PostMapping("/{mailId}/send")
+    fun sendDraft(
+        @PathVariable userId: UUID,
+        @PathVariable mailId: UUID,
+    ): ResponseEntity<MailOutput> {
+        val sentMail = mailService.sendDraft(userId, mailId)
+        return ResponseEntity.ok(sentMail)
     }
 }
