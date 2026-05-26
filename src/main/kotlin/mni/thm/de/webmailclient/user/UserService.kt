@@ -1,6 +1,8 @@
 package mni.thm.de.webmailclient.user
 import mni.thm.de.webmailclient.user.dto.UserUpdate
 import org.springframework.stereotype.Service
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserService(
@@ -8,7 +10,8 @@ class UserService(
 ) {
     fun create(user: User): User {
         if (userRepository.userExistsByEmail(user.email)) {
-            throw IllegalArgumentException(
+            throw ResponseStatusException(
+                HttpStatus.CONFLICT,
                 "User with email ${user.email} already exists"
             )
         }

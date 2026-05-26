@@ -5,7 +5,9 @@ import mni.thm.de.webmailclient.mail.dto.MailOutput
 import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import mni.thm.de.webmailclient.mail.dto.toOutput
 import mni.thm.de.webmailclient.user.UserRepository
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 import java.util.UUID
 
@@ -16,7 +18,10 @@ class MailService (
 ) {
     fun createDraft(userId: UUID, mailCreate: MailCreate): MailOutput {
         val user = userRepository.findById(userId)
-            ?: throw IllegalStateException("User with id $userId not found")
+            ?: throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "User with id $userId not found"
+            )
 
         val mail = mailCreate.toMail(ownerId = user.id)
         return mailRepository.save(mail).toOutput()
@@ -24,7 +29,10 @@ class MailService (
 
     fun findAllByUserId(userId: UUID): Set<MailOutput> {
         if (userRepository.findById(userId) == null) {
-            throw IllegalArgumentException("User with id $userId not found")
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "User with id $userId not found"
+            )
         }
         return mailRepository.findAllByOwnerId(userId)
             .map { it.toOutput() }
@@ -56,7 +64,10 @@ class MailService (
         val deleted = mailRepository.deleteById(mailId)
 
         if (!deleted) {
-            throw IllegalArgumentException("Mail with id $mailId could not be deleted")
+            throw ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Mail with id $mailId could not be deleted"
+            )
         }
     }
 
@@ -64,7 +75,10 @@ class MailService (
         val mail = findMailOfUser(userId, mailId)
 
         if (mail.status != MailStatus.DRAFT) {
-            throw IllegalStateException("Only draft mails can be sent")
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Only draft mails can be sent"
+            )
         }
 
         val sentMail = mail.copy(
@@ -79,14 +93,23 @@ class MailService (
 
     private fun findMailOfUser(userId: UUID, mailId: UUID): Mail {
         if (userRepository.findById(userId) == null) {
-            throw IllegalArgumentException("User with id $userId not found")
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "User with id $userId not found"
+            )
         }
 
         val mail = mailRepository.findById(mailId)
-            ?: throw IllegalArgumentException("Mail with id $mailId not found")
+            ?: throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Mail with id $mailId not found"
+            )
 
         if (mail.ownerId != userId) {
-            throw IllegalArgumentException("Mail does not belong to user $userId")
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Mail does not belong to user $userId"
+            )
         }
 
         return mail
