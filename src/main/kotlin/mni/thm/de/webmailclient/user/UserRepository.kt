@@ -1,43 +1,8 @@
 package mni.thm.de.webmailclient.user
 
-import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.JpaRepository
+import java.util.UUID
 
-@Repository
-class UserRepository {
-    private val userStorage = mutableSetOf<User>()
-
-    fun userExistsByEmail(email: String): Boolean {
-        return userStorage.any {
-            it.email.equals(email, ignoreCase = true)
-        }
-    }
-
-    fun save(user: User): User {
-        userStorage.add(user)
-        return user
-    }
-
-    fun findAll(): List<User> {
-        return userStorage.toList()
-    }
-
-    fun findById(id: java.util.UUID): User? {
-        return userStorage.find { it.id == id }
-    }
-
-    fun updateById(id: java.util.UUID, updatedUser: User): User? {
-        val existingUser = findById(id) ?: return null
-
-        userStorage.remove(existingUser)
-        userStorage.add(updatedUser)
-
-        return updatedUser
-    }
-
-    fun deleteById(id: java.util.UUID): Boolean {
-        val user = findById(id) ?: return false
-        return userStorage.remove(user)
-    }
-
-
+interface UserRepository: JpaRepository<User, UUID> {
+    fun existsByEmailIgnoreCase(email: String): Boolean
 }

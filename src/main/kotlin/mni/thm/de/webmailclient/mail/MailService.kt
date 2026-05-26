@@ -12,28 +12,20 @@ import java.time.Instant
 import java.util.UUID
 
 @Service
-class MailService (
+class MailService(
     private val mailRepository: MailRepository,
     private val userRepository: UserRepository
 ) {
     fun createDraft(userId: UUID, mailCreate: MailCreate): MailOutput {
-        val user = userRepository.findById(userId)
-            ?: throw ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "User with id $userId not found"
-            )
+        ensureUserExists(userId)
 
-        val mail = mailCreate.toMail(ownerId = user.id)
+        val mail = mailCreate.toMail(ownerId = userId)
         return mailRepository.save(mail).toOutput()
     }
 
     fun findAllByUserId(userId: UUID): Set<MailOutput> {
-        if (userRepository.findById(userId) == null) {
-            throw ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "User with id $userId not found"
-            )
-        }
+        ensureUserExists(userId)
+
         return mailRepository.findAllByOwnerId(userId)
             .map { it.toOutput() }
             .toSet()
@@ -47,28 +39,20 @@ class MailService (
         val existingMail = findMailOfUser(userId, mailId)
 
         val updatedMail = existingMail.copy(
-            sender = mailUpdate.sender,
-            to = mailUpdate.to,
-            cc = mailUpdate.cc,
-            bcc = mailUpdate.bcc,
-            subject = mailUpdate.subject,
+            sender = mailUpdate.sender.trim(),
+            to = mailUpdate.to.trim(),
+            cc = mailUpdate.cc.trim(),
+            bcc = mailUpdate.bcc.trim(),
+            subject = mailUpdate.subject.trim(),
             body = mailUpdate.body,
         )
 
-        return mailRepository.updateById(mailId, updatedMail)!!.toOutput()
+        return mailRepository.save(updatedMail).toOutput()
     }
 
     fun deleteById(userId: UUID, mailId: UUID) {
-        findMailOfUser(userId, mailId)
-
-        val deleted = mailRepository.deleteById(mailId)
-
-        if (!deleted) {
-            throw ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "Mail with id $mailId could not be deleted"
-            )
-        }
+        val mail = findMailOfUser(userId, mailId)
+        mailRepository.delete(mail)
     }
 
     fun sendDraft(userId: UUID, mailId: UUID): MailOutput {
@@ -86,24 +70,28 @@ class MailService (
             sentAt = Instant.now(),
         )
 
-        return mailRepository.updateById(mailId, sentMail)!!.toOutput()
+        return mailRepository.save(sentMail).toOutput()
     }
 
-    // helper functions
-
-    private fun findMailOfUser(userId: UUID, mailId: UUID): Mail {
-        if (userRepository.findById(userId) == null) {
+    private fun ensureUserExists(userId: UUID) {
+        if (!userRepository.existsById(userId)) {
             throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "User with id $userId not found"
             )
         }
+    }
+
+    private fun findMailOfUser(userId: UUID, mailId: UUID): Mail {
+        ensureUserExists(userId)
 
         val mail = mailRepository.findById(mailId)
-            ?: throw ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Mail with id $mailId not found"
-            )
+            .orElseThrow {
+                ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Mail with id $mailId not found"
+                )
+            }
 
         if (mail.ownerId != userId) {
             throw ResponseStatusException(

@@ -1,5 +1,9 @@
+@baseUrl = http://localhost:8080
+@userId =
+@mailId =
+
 ### Create user
-POST http://localhost:8080/users
+POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
@@ -10,26 +14,32 @@ Content-Type: application/json
 }
 
 ### Get all users
-GET http://localhost:8080/users
+GET {{baseUrl}}/users
+
+### Get user by id
+GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827
 
 ### Create draft mail
-POST http://localhost:8080/users/{{userId}}/mails
+POST {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails
 Content-Type: application/json
 
 {
   "sender": "max.mustermann@example.com",
-  "to": ["anna@example.com"],
-  "cc": ["team@example.com"],
-  "bcc": [],
+  "to": "anna@example.com",
+  "cc": "team@example.com",
+  "bcc": "",
   "subject": "Test Mail",
   "body": "Hallo, das ist eine Test Mail."
 }
 
 ### Get all mails of user
-GET http://localhost:8080/users/{{userId}}/mails
+GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails
+
+### Get mail by id
+GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails/{{mailId}}
 
 ### Send draft mail
-POST http://localhost:8080/users/{{userId}}/mails/{{mailId}}/send
+POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
 
 ### Send same draft again - should fail
-POST http://localhost:8080/users/{{userId}}/mails/{{mailId}}/send
+POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send

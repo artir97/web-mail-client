@@ -36,22 +36,22 @@ class UserController(private val userService: UserService) {
     @GetMapping("/{id}")
     fun getUserById(
         @PathVariable id: UUID
-    ) : UserOutput? {
-        return userService.findById(id)?.toOutput()
+    ) : UserOutput {
+        return userService.findById(id).toOutput()
     }
 
     @PutMapping("/{id}")
     fun updateUserById(
         @PathVariable id: UUID,
         @Valid @RequestBody userUpdate: UserUpdate,
-    ): UserOutput? {
-        return userService.updateById(id, userUpdate)?.toOutput()
+    ): UserOutput {
+        return userService.updateById(id, userUpdate).toOutput()
     }
 
     @DeleteMapping("/{id}")
     fun deleteUserById(
         @PathVariable id: UUID
-    ): Boolean {
-        return userService.deleteById(id)
+    ) {
+        userService.deleteById(id)
     }
 }

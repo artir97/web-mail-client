@@ -2,20 +2,23 @@ package mni.thm.de.webmailclient.mail.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
 import mni.thm.de.webmailclient.mail.Mail
 import java.util.UUID
 
 data class MailCreate(
     @field:Email(message = "Sender must be a valid email address")
+    @field:NotBlank(message = "Sender must not be blank")
     val sender: String,
 
-    @field:NotEmpty(message = "At least one recipient is required")
-    val to: List<@Email(message = "Recipient must be a valid email address") String>,
+    @field:Email(message = "Recipient must be a valid email address")
+    @field:NotBlank(message = "Recipient is required")
+    val to: String,
 
-    val cc: List<@Email(message = "CC recipient must be a valid email address") String> = emptyList(),
+    @field:Email(message = "CC recipient must be a valid email address")
+    val cc: String = "",
 
-    val bcc: List<@Email(message = "BCC recipient must be a valid email address") String> = emptyList(),
+    @field:Email(message = "BCC recipient must be a valid email address")
+    val bcc: String = "",
 
     @field:NotBlank(message = "Subject must not be blank")
     val subject: String,
@@ -27,9 +30,9 @@ data class MailCreate(
         return Mail(
             ownerId = ownerId,
             sender = sender.trim(),
-            to = to.map { it.trim() },
-            cc = cc.map { it.trim() },
-            bcc = bcc.map { it.trim() },
+            to = to.trim(),
+            cc = cc.trim(),
+            bcc = bcc.trim(),
             subject = subject.trim(),
             body = body,
         )

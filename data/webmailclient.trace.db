@@ -1,0 +1,40 @@
+2026-05-26 15:17:25.217919+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "create table mails (id uuid not null, bcc varchar(255), body varchar(5000), cc varchar(255), created_at timestamp(6) with time zone, owner_id uuid, sender varchar(255), sent_at timestamp(6) with time zone, status enum ('DRAFT','RECEIVED','SENT'), subject varchar(255), [*]to varchar(255), primary key (id))"; erwartet "identifier"
+Syntax error in SQL statement "create table mails (id uuid not null, bcc varchar(255), body varchar(5000), cc varchar(255), created_at timestamp(6) with time zone, owner_id uuid, sender varchar(255), sent_at timestamp(6) with time zone, status enum ('DRAFT','RECEIVED','SENT'), subject varchar(255), [*]to varchar(255), primary key (id))"; expected "identifier"; SQL statement:
+create table mails (id uuid not null, bcc varchar(255), body varchar(5000), cc varchar(255), created_at timestamp(6) with time zone, owner_id uuid, sender varchar(255), sent_at timestamp(6) with time zone, status enum ('DRAFT','RECEIVED','SENT'), subject varchar(255), to varchar(255), primary key (id)) [42001-240]
+2026-05-26 15:21:56.913415+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
+2026-05-26 15:22:22.941830+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
+2026-05-26 15:22:25.284518+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
+2026-05-26 15:22:37.630389+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
+2026-05-26 15:23:32.306375+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "DELETE [*]* FROM USERS"; erwartet "identifier"
+Syntax error in SQL statement "DELETE [*]* FROM USERS"; expected "identifier"; SQL statement:
+DELETE * FROM USERS [42001-240]
+2026-05-26 15:24:35.028167+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
+2026-05-26 15:26:35.778363+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), [*]to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id))"; erwartet "identifier"
+Syntax error in SQL statement "create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), [*]to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id))"; expected "identifier"; SQL statement:
+create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id)) [42001-240]
+2026-05-26 15:26:43.000515+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), [*]to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id))"; erwartet "identifier"
+Syntax error in SQL statement "create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), [*]to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id))"; expected "identifier"; SQL statement:
+create table mails (created_at timestamp(6) with time zone, sent_at timestamp(6) with time zone, id uuid not null, owner_id uuid, body varchar(5000), bcc varchar(255), cc varchar(255), sender varchar(255), subject varchar(255), to varchar(255), status enum ('DRAFT','RECEIVED','SENT'), primary key (id)) [42001-240]
+2026-05-26 15:27:12.336416+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; erwartet "identifier"
+Syntax error in SQL statement "select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.[*]to from mails m1_0 where m1_0.id=?"; expected "identifier"; SQL statement:
+select m1_0.id,m1_0.bcc,m1_0.body,m1_0.cc,m1_0.created_at,m1_0.owner_id,m1_0.sender,m1_0.sent_at,m1_0.status,m1_0.subject,m1_0.to from mails m1_0 where m1_0.id=? [42001-240]
