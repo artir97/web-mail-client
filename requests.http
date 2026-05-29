@@ -17,10 +17,10 @@ Content-Type: application/json
 GET {{baseUrl}}/users
 
 ### Get user by id
-GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7
+GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227
 
 ### Create draft mail
-POST {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
+POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
 Content-Type: application/json
 
 {
@@ -33,20 +33,20 @@ Content-Type: application/json
 }
 
 ### Get all mails of user
-GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
+GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
 
 ### Get mail by id
-GET {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/d36fa589-3cea-4126-8f1a-e9782b68c69b
+GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/d558e8a7-daf6-46c6-99d7-8a3a3be45321
 
 ### Send draft mail
-POST {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/d36fa589-3cea-4126-8f1a-e9782b68c69b/send
+POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/d558e8a7-daf6-46c6-99d7-8a3a3be45321/send
 
 ### Send same draft again - should fail
 POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
 
 
 ### Create another draft mail for update/delete tests
-POST {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails
+POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
 Content-Type: application/json
 
 {
@@ -59,7 +59,7 @@ Content-Type: application/json
 }
 
 ### Update draft mail
-PUT {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails/e8b12f70-7255-4f1f-9aa1-a6b29b1ddca0
+PUT {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/1aa64366-9fb9-4546-a6ed-f8612953bcdd
 Content-Type: application/json
 
 {
@@ -72,7 +72,7 @@ Content-Type: application/json
 }
 
 ### Delete mail
-DELETE {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails/e8b12f70-7255-4f1f-9aa1-a6b29b1ddca0
+DELETE {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/1aa64366-9fb9-4546-a6ed-f8612953bcdd
 
 ### Get deleted mail - should fail with 404
 GET {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/{{mailId}}
