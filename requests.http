@@ -1,6 +1,14 @@
 @baseUrl = http://localhost:8080
-@userId =
-@mailId =
+
+# Nach dem Create User hier eintragen
+@userId = a6fb3f59-eb6d-4c02-a27b-01d243121227
+
+# Nach dem Create Draft hier eintragen
+@mailId = d558e8a7-daf6-46c6-99d7-8a3a3be45321
+
+# Nach dem zweiten Create Draft hier eintragen
+@draftId = 1aa64366-9fb9-4546-a6ed-f8612953bcdd
+
 
 ### Create user
 POST {{baseUrl}}/users
@@ -13,14 +21,17 @@ Content-Type: application/json
   "password": "Password123!"
 }
 
+
 ### Get all users
 GET {{baseUrl}}/users
 
+
 ### Get user by id
-GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227
+GET {{baseUrl}}/users/{{userId}}
+
 
 ### Create draft mail
-POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
+POST {{baseUrl}}/users/{{userId}}/mails
 Content-Type: application/json
 
 {
@@ -32,21 +43,25 @@ Content-Type: application/json
   "body": "Hallo, das ist eine Test Mail."
 }
 
+
 ### Get all mails of user
-GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
+GET {{baseUrl}}/users/{{userId}}/mails
+
 
 ### Get mail by id
-GET {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/d558e8a7-daf6-46c6-99d7-8a3a3be45321
+GET {{baseUrl}}/users/{{userId}}/mails/{{mailId}}
+
 
 ### Send draft mail
-POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/d558e8a7-daf6-46c6-99d7-8a3a3be45321/send
+POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
 
-### Send same draft again - should fail
+
+### Send same draft again - should fail with 400
 POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
 
 
 ### Create another draft mail for update/delete tests
-POST {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails
+POST {{baseUrl}}/users/{{userId}}/mails
 Content-Type: application/json
 
 {
@@ -58,8 +73,9 @@ Content-Type: application/json
   "body": "Dieser Draft wird gleich geändert."
 }
 
+
 ### Update draft mail
-PUT {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/1aa64366-9fb9-4546-a6ed-f8612953bcdd
+PUT {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
 Content-Type: application/json
 
 {
@@ -71,14 +87,22 @@ Content-Type: application/json
   "body": "Dieser Draft wurde erfolgreich geändert."
 }
 
+
+### Get updated draft
+GET {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+
+
 ### Delete mail
-DELETE {{baseUrl}}/users/a6fb3f59-eb6d-4c02-a27b-01d243121227/mails/1aa64366-9fb9-4546-a6ed-f8612953bcdd
+DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+
 
 ### Get deleted mail - should fail with 404
-GET {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/{{mailId}}
+GET {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+
 
 ### Delete already deleted mail - should fail with 404
-DELETE {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/{{mailId}}
+DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+
 
 ### Get all mails after delete
-GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
+GET {{baseUrl}}/users/{{userId}}/mails
