@@ -22,7 +22,7 @@ data class MailOutput(
 fun Mail.toOutput(): MailOutput {
     return MailOutput(
         id = id,
-        ownerId = ownerId,
+        ownerId = owner.id,
         sender = sender,
         to = to,
         cc = cc,

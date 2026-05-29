@@ -3,7 +3,7 @@ package mni.thm.de.webmailclient.mail.dto
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import mni.thm.de.webmailclient.mail.Mail
-import java.util.UUID
+import mni.thm.de.webmailclient.user.User
 
 data class MailCreate(
     @field:Email(message = "Sender must be a valid email address")
@@ -26,9 +26,9 @@ data class MailCreate(
     @field:NotBlank(message = "Message must not be blank")
     val body: String,
 ) {
-    fun toMail(ownerId: UUID): Mail {
+    fun toMail(owner: User): Mail {
         return Mail(
-            ownerId = ownerId,
+            owner = owner,
             sender = sender.trim(),
             to = to.trim(),
             cc = cc.trim(),

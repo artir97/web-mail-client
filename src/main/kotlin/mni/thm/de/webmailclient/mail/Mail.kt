@@ -5,7 +5,10 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import mni.thm.de.webmailclient.user.User
 import java.time.Instant
 import java.util.UUID
 
@@ -15,7 +18,9 @@ data class Mail(
     @Id
     val id: UUID = UUID.randomUUID(),
 
-    val ownerId: UUID,
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    val owner: User,
     val sender: String,
 
     @Column(name = "recipient")

@@ -17,16 +17,17 @@ class MailService(
     private val userRepository: UserRepository
 ) {
     fun createDraft(userId: UUID, mailCreate: MailCreate): MailOutput {
-        ensureUserExists(userId)
+        val owner = userRepository.findById(userId)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
-        val mail = mailCreate.toMail(ownerId = userId)
+        val mail = mailCreate.toMail(owner)
         return mailRepository.save(mail).toOutput()
     }
 
     fun findAllByUserId(userId: UUID): Set<MailOutput> {
         ensureUserExists(userId)
 
-        return mailRepository.findAllByOwnerId(userId)
+        return mailRepository.findAllByOwner_Id(userId)
             .map { it.toOutput() }
             .toSet()
     }
@@ -93,7 +94,7 @@ class MailService(
                 )
             }
 
-        if (mail.ownerId != userId) {
+        if (mail.owner.id != userId) {
             throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "Mail does not belong to user $userId"

@@ -17,10 +17,10 @@ Content-Type: application/json
 GET {{baseUrl}}/users
 
 ### Get user by id
-GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827
+GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7
 
 ### Create draft mail
-POST {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails
+POST {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
 Content-Type: application/json
 
 {
@@ -33,13 +33,52 @@ Content-Type: application/json
 }
 
 ### Get all mails of user
-GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails
+GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
 
 ### Get mail by id
-GET {{baseUrl}}/users/8db5418b-cd4f-486f-8511-4cbcef54b827/mails/{{mailId}}
+GET {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/d36fa589-3cea-4126-8f1a-e9782b68c69b
 
 ### Send draft mail
-POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
+POST {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/d36fa589-3cea-4126-8f1a-e9782b68c69b/send
 
 ### Send same draft again - should fail
 POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
+
+
+### Create another draft mail for update/delete tests
+POST {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails
+Content-Type: application/json
+
+{
+  "sender": "max.mustermann@example.com",
+  "to": "anna@example.com",
+  "cc": "",
+  "bcc": "",
+  "subject": "Draft zum Bearbeiten",
+  "body": "Dieser Draft wird gleich geändert."
+}
+
+### Update draft mail
+PUT {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails/e8b12f70-7255-4f1f-9aa1-a6b29b1ddca0
+Content-Type: application/json
+
+{
+  "sender": "max.mustermann@example.com",
+  "to": "anna.neu@example.com",
+  "cc": "team@example.com",
+  "bcc": "",
+  "subject": "Geänderter Draft",
+  "body": "Dieser Draft wurde erfolgreich geändert."
+}
+
+### Delete mail
+DELETE {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails/e8b12f70-7255-4f1f-9aa1-a6b29b1ddca0
+
+### Get deleted mail - should fail with 404
+GET {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/{{mailId}}
+
+### Delete already deleted mail - should fail with 404
+DELETE {{baseUrl}}/users/1dfa597c-7a06-41df-b96f-ec1a9a2ee4d4/mails/{{mailId}}
+
+### Get all mails after delete
+GET {{baseUrl}}/users/f8011426-1bcd-40a6-8e7b-51bcc63d3bf7/mails
