@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:8080
 
 # Nach dem Create User hier eintragen
-@userId = a6fb3f59-eb6d-4c02-a27b-01d243121227
+@userId = e56c1023-43a4-4397-93cd-c68b62b75731
 
 # Nach dem Create Draft hier eintragen
 @mailId = d558e8a7-daf6-46c6-99d7-8a3a3be45321

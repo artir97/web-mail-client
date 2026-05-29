@@ -2,12 +2,14 @@ package mni.thm.de.webmailclient.user
 import mni.thm.de.webmailclient.user.dto.UserUpdate
 import org.springframework.stereotype.Service
 import org.springframework.http.HttpStatus
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
 ) {
     fun create(user: User): User {
         if (userRepository.existsByEmailIgnoreCase(user.email)) {
@@ -16,7 +18,15 @@ class UserService(
                 "User with email ${user.email} already exists"
             )
         }
-        return userRepository.save(user)
+
+        val hashedPassword = passwordEncoder.encode(user.password)
+            ?: throw IllegalStateException("Password hashing failed")
+
+        val userWithHashedPassword = user.copy(
+            password = hashedPassword
+        )
+
+        return userRepository.save(userWithHashedPassword)
     }
 
     fun findAll(): List<User> {
