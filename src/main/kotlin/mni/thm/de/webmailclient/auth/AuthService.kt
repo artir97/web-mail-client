@@ -11,7 +11,8 @@ import org.springframework.web.server.ResponseStatusException
 @Service
 class AuthService (
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val jwtService: JwtService,
 ) {
     fun login(loginRequest: LoginRequest): LoginResponse {
         val user = userRepository.findByEmailIgnoreCase(loginRequest.email.trim())
@@ -35,7 +36,7 @@ class AuthService (
         }
 
         return LoginResponse(
-            message = "Login successful"
+            token = jwtService.generateToken(user)
         )
     }
 }

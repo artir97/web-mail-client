@@ -1,5 +1,5 @@
 package mni.thm.de.webmailclient.auth.dto
 
 data class LoginResponse(
-    val message: String,
+    val token: String,
 )
