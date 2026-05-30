@@ -106,3 +106,22 @@ DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
 
 ### Get all mails after delete
 GET {{baseUrl}}/users/{{userId}}/mails
+
+
+### Login successful
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "max.mustermann@example.com",
+  "password": "Password123!"
+}
+
+### Login wrong password - should fail with 401
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "max.mustermann@example.com",
+  "password": "WrongPassword123!"
+}
