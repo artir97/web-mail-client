@@ -23,7 +23,10 @@ class SecurityConfig(
                 }
             }
             .authorizeHttpRequests {
-                it.anyRequest().permitAll()
+                it.requestMatchers("/login").permitAll()
+                it.requestMatchers(org.springframework.http.HttpMethod.POST, "/users").permitAll()
+                it.requestMatchers("/h2-console/**").permitAll()
+                it.anyRequest().authenticated()
             }
             .addFilterBefore(
                 jwtAuthFilter,

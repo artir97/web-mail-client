@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8080
+@token = placeholder-for-token
 
 # Nach dem Create User hier eintragen
 @userId = e56c1023-43a4-4397-93cd-c68b62b75731
@@ -24,6 +25,10 @@ Content-Type: application/json
 
 ### Get all users
 GET {{baseUrl}}/users
+
+### Get all users with token
+GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
 
 
 ### Get user by id
