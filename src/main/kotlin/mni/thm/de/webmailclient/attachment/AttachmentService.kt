@@ -5,10 +5,12 @@ import mni.thm.de.webmailclient.attachment.dto.toOutput
 import mni.thm.de.webmailclient.mail.MailRepository
 import mni.thm.de.webmailclient.storage.FileStorageService
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
+@Service
 class AttachmentService (
     private val attachmentRepository: AttachmentRepository,
     private val mailRepository: MailRepository,
