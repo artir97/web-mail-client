@@ -1,5 +1,6 @@
 package mni.thm.de.webmailclient.config
 
+import jakarta.servlet.DispatcherType
 import mni.thm.de.webmailclient.auth.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -25,6 +26,8 @@ class SecurityConfig {
                 }
             }
             .authorizeHttpRequests {
+                it.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                it.requestMatchers("/error").permitAll()
                 it.requestMatchers("/login").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
                 it.requestMatchers("/h2-console/**").permitAll()
