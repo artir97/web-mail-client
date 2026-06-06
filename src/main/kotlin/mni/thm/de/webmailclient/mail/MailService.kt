@@ -16,7 +16,13 @@ class MailService(
     private val mailRepository: MailRepository,
     private val userRepository: UserRepository
 ) {
-    fun createDraft(userId: UUID, mailCreate: MailCreate): MailOutput {
+    fun createDraft(
+        userId: UUID,
+        authenticatedUserId: UUID,
+        mailCreate: MailCreate,
+    ): MailOutput {
+        ensureOwnUser(userId, authenticatedUserId)
+
         val owner = userRepository.findById(userId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
@@ -24,7 +30,11 @@ class MailService(
         return mailRepository.save(mail).toOutput()
     }
 
-    fun findAllByUserId(userId: UUID): Set<MailOutput> {
+    fun findAllByUserId(
+        userId: UUID,
+        authenticatedUserId: UUID
+    ): Set<MailOutput> {
+        ensureOwnUser(userId, authenticatedUserId)
         ensureUserExists(userId)
 
         return mailRepository.findAllByOwner_Id(userId)
@@ -32,11 +42,23 @@ class MailService(
             .toSet()
     }
 
-    fun findById(userId: UUID, mailId: UUID): MailOutput {
+    fun findById(
+        userId: UUID,
+        authenticatedUserId: UUID,
+        mailId: UUID
+    ): MailOutput {
+        ensureOwnUser(userId, authenticatedUserId)
         return findMailOfUser(userId, mailId).toOutput()
     }
 
-    fun updateDraft(userId: UUID, mailId: UUID, mailUpdate: MailUpdate): MailOutput {
+    fun updateDraft(
+        userId: UUID,
+        authenticatedUserId: UUID,
+        mailId: UUID,
+        mailUpdate: MailUpdate
+    ): MailOutput {
+        ensureOwnUser(userId, authenticatedUserId)
+
         val existingMail = findMailOfUser(userId, mailId)
 
         val updatedMail = existingMail.copy(
@@ -51,12 +73,24 @@ class MailService(
         return mailRepository.save(updatedMail).toOutput()
     }
 
-    fun deleteById(userId: UUID, mailId: UUID) {
+    fun deleteById(
+        userId: UUID,
+        authenticatedUserId: UUID,
+        mailId: UUID
+    ) {
+        ensureOwnUser(userId, authenticatedUserId)
+
         val mail = findMailOfUser(userId, mailId)
         mailRepository.delete(mail)
     }
 
-    fun sendDraft(userId: UUID, mailId: UUID): MailOutput {
+    fun sendDraft(
+        userId: UUID,
+        authenticatedUserId: UUID,
+        mailId: UUID
+    ): MailOutput {
+        ensureOwnUser(userId, authenticatedUserId)
+
         val mail = findMailOfUser(userId, mailId)
 
         if (mail.status != MailStatus.DRAFT) {
@@ -103,4 +137,17 @@ class MailService(
 
         return mail
     }
+
+    private fun ensureOwnUser(
+        userId: UUID,
+        authenticatedUserId: UUID
+    ) {
+        if (userId != authenticatedUserId) {
+            throw ResponseStatusException(
+                HttpStatus.FORBIDDEN,
+                "Access denied"
+            )
+        }
+    }
+
 }

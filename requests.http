@@ -1,132 +1,205 @@
 @baseUrl = http://localhost:8080
-@token = placeholder-for-token
 
-# Nach dem Create User hier eintragen
-@userId = e56c1023-43a4-4397-93cd-c68b62b75731
+# Real users fetched from the local app on 2026-06-05.
+@userId = b0f23b24-e6ff-4481-9cdf-26689a9af217
+@userId2 = d7ba81de-8f01-41ec-aa67-1bd5de36d18d
 
-# Nach dem Create Draft hier eintragen
-@mailId = d558e8a7-daf6-46c6-99d7-8a3a3be45321
+# Fresh JWTs from the local app. Re-run the login requests when they expire.
+@tokenA = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiMGYyM2IyNC1lNmZmLTQ0ODEtOWNkZi0yNjY4OWE5YWYyMTciLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGV4YW1wbGUuY29tIiwiaWF0IjoxNzgwNzQ4NzE5LCJleHAiOjE3ODA3NTIzMTl9.q3k8_am5dYpXKM8qErCY_FTMWm2e0RW-2x1K6O5VZ9evuNe5Weu_FMz-b1cmQoja
+@tokenB = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJkN2JhODFkZS04ZjAxLTQxZWMtYWE2Ny0xYmQ1ZGUzNmQxOGQiLCJlbWFpbCI6Im1heDIubXVzdGVybWFubkBleGFtcGxlLmNvbSIsImlhdCI6MTc4MDc0Nzc4NywiZXhwIjoxNzgwNzUxMzg3fQ.O3mKeVb5m0UwhgGzUGt26kyG2rGgqXMJ_JBbVUq3kz64jt9qRYb0oNbkzHQyf5zJ
 
-# Nach dem zweiten Create Draft hier eintragen
-@draftId = 1aa64366-9fb9-4546-a6ed-f8612953bcdd
+# Existing draft for User A. After request 09, copy the returned id here
+# when you want the later mail-id requests to use the newly created draft.
+@mailId = 5be581f0-1b3f-485f-aa16-3322701e4388
+@draftId = 5be581f0-1b3f-485f-aa16-3322701e4388
+
+@userAEmail = max.mustermann@example.com
+@userAPassword = Password123!
+
+@userBEmail = max2.mustermann@example.com
+@userBPassword = Password1234!
 
 
-### Create user
+### 01 Create User A - expected 201 Created, or 409 Conflict if already exists
+# Observed on current local app when already exists: 403 Forbidden.
 POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "email": "max.mustermann@example.com",
+  "email": "{{userAEmail}}",
   "firstName": "Max",
   "lastName": "Mustermann",
-  "password": "Password123!"
+  "password": "{{userAPassword}}"
 }
 
 
-### Get all users
-GET {{baseUrl}}/users
-
-### Get all users with token
-GET {{baseUrl}}/users
-Authorization: Bearer {{token}}
-
-
-### Get user by id
-GET {{baseUrl}}/users/{{userId}}
-
-
-### Create draft mail
-POST {{baseUrl}}/users/{{userId}}/mails
+### 02 Create User B - expected 201 Created, or 409 Conflict if already exists
+# Observed on current local app when already exists: 403 Forbidden.
+POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "sender": "max.mustermann@example.com",
+  "email": "{{userBEmail}}",
+  "firstName": "Max2",
+  "lastName": "Mustermann2",
+  "password": "{{userBPassword}}"
+}
+
+
+### 03 Login User A - expected 200 OK
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "{{userAEmail}}",
+  "password": "{{userAPassword}}"
+}
+
+
+### 04 Login User B - expected 200 OK
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "{{userBEmail}}",
+  "password": "{{userBPassword}}"
+}
+
+
+### 05 Access protected endpoint without token - expected 403 Forbidden
+GET {{baseUrl}}/users
+
+
+### 06 Access protected endpoint with tokenA - expected 200 OK
+GET {{baseUrl}}/users
+Authorization: Bearer {{tokenA}}
+
+
+### 07 Get User A mails with tokenA - expected 200 OK
+GET {{baseUrl}}/users/{{userId}}/mails
+Authorization: Bearer {{tokenA}}
+
+
+### 08 Get User B mails with tokenA - expected 403 Forbidden
+GET {{baseUrl}}/users/{{userId2}}/mails
+Authorization: Bearer {{tokenA}}
+
+
+### 09 Create draft for User A with tokenA - expected 201 Created
+POST {{baseUrl}}/users/{{userId}}/mails
+Content-Type: application/json
+Authorization: Bearer {{tokenA}}
+
+{
+  "sender": "{{userAEmail}}",
   "to": "anna@example.com",
   "cc": "team@example.com",
   "bcc": "",
-  "subject": "Test Mail",
-  "body": "Hallo, das ist eine Test Mail."
+  "subject": "Authorization Test Draft A",
+  "body": "Created by authorization test."
 }
 
 
-### Get all mails of user
-GET {{baseUrl}}/users/{{userId}}/mails
-
-
-### Get mail by id
-GET {{baseUrl}}/users/{{userId}}/mails/{{mailId}}
-
-
-### Send draft mail
-POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
-
-
-### Send same draft again - should fail with 400
-POST {{baseUrl}}/users/{{userId}}/mails/{{mailId}}/send
-
-
-### Create another draft mail for update/delete tests
-POST {{baseUrl}}/users/{{userId}}/mails
+### 10 Create draft for User B with tokenA - expected 403 Forbidden
+POST {{baseUrl}}/users/{{userId2}}/mails
 Content-Type: application/json
+Authorization: Bearer {{tokenA}}
 
 {
-  "sender": "max.mustermann@example.com",
+  "sender": "{{userBEmail}}",
   "to": "anna@example.com",
   "cc": "",
   "bcc": "",
-  "subject": "Draft zum Bearbeiten",
-  "body": "Dieser Draft wird gleich geändert."
+  "subject": "Authorization Test Draft B blocked",
+  "body": "This must be blocked because tokenA belongs to User A."
 }
 
 
-### Update draft mail
-PUT {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+### 11 Create draft for User B with tokenB - expected 201 Created
+POST {{baseUrl}}/users/{{userId2}}/mails
 Content-Type: application/json
+Authorization: Bearer {{tokenB}}
 
 {
-  "sender": "max.mustermann@example.com",
+  "sender": "{{userBEmail}}",
+  "to": "anna@example.com",
+  "cc": "",
+  "bcc": "",
+  "subject": "Authorization Test Draft B",
+  "body": "Created by authorization test."
+}
+
+
+### 12 Get User A mail with tokenA - expected 200 OK
+GET {{baseUrl}}/users/{{userId}}/mails/{{mailId}}
+Authorization: Bearer {{tokenA}}
+
+
+### 13 Get User A mail through User B URL with tokenA - expected 403 Forbidden
+GET {{baseUrl}}/users/{{userId2}}/mails/{{mailId}}
+Authorization: Bearer {{tokenA}}
+
+
+### 14 Update User A draft with tokenA - expected 200 OK
+PUT {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+Content-Type: application/json
+Authorization: Bearer {{tokenA}}
+
+{
+  "sender": "{{userAEmail}}",
   "to": "anna.neu@example.com",
   "cc": "team@example.com",
   "bcc": "",
-  "subject": "Geänderter Draft",
-  "body": "Dieser Draft wurde erfolgreich geändert."
+  "subject": "Updated Authorization Test Draft A",
+  "body": "Updated by authorization test."
 }
 
 
-### Get updated draft
-GET {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
-
-
-### Delete mail
-DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
-
-
-### Get deleted mail - should fail with 404
-GET {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
-
-
-### Delete already deleted mail - should fail with 404
-DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
-
-
-### Get all mails after delete
-GET {{baseUrl}}/users/{{userId}}/mails
-
-
-### Login successful
-POST {{baseUrl}}/login
+### 15 Update User A draft through User B URL with tokenA - expected 403 Forbidden
+PUT {{baseUrl}}/users/{{userId2}}/mails/{{draftId}}
 Content-Type: application/json
+Authorization: Bearer {{tokenA}}
 
 {
-  "email": "max.mustermann@example.com",
-  "password": "Password123!"
+  "sender": "{{userAEmail}}",
+  "to": "anna.neu@example.com",
+  "cc": "team@example.com",
+  "bcc": "",
+  "subject": "Blocked Cross-user Update",
+  "body": "This must be blocked because tokenA belongs to User A."
 }
 
-### Login wrong password - should fail with 401
-POST {{baseUrl}}/login
-Content-Type: application/json
 
-{
-  "email": "max.mustermann@example.com",
-  "password": "WrongPassword123!"
-}
+### 16 Send User A draft with tokenA - expected 200 OK
+POST {{baseUrl}}/users/{{userId}}/mails/{{draftId}}/send
+Authorization: Bearer {{tokenA}}
+
+
+### 17 Send User A draft through User B URL with tokenA - expected 403 Forbidden
+POST {{baseUrl}}/users/{{userId2}}/mails/{{draftId}}/send
+Authorization: Bearer {{tokenA}}
+
+
+### Extra: send same mail again after request 16 - expected 400 Bad Request
+POST {{baseUrl}}/users/{{userId}}/mails/{{draftId}}/send
+Authorization: Bearer {{tokenA}}
+
+
+### 18 Delete User A mail with tokenA - expected 204 No Content
+DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+Authorization: Bearer {{tokenA}}
+
+
+### 19 Delete User A mail through User B URL with tokenA - expected 403 Forbidden
+DELETE {{baseUrl}}/users/{{userId2}}/mails/{{draftId}}
+Authorization: Bearer {{tokenA}}
+
+
+### Extra: get deleted mail after request 18 - expected 404 Not Found
+GET {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+Authorization: Bearer {{tokenA}}
+
+
+### Extra: delete already deleted mail after request 18 - expected 404 Not Found
+DELETE {{baseUrl}}/users/{{userId}}/mails/{{draftId}}
+Authorization: Bearer {{tokenA}}

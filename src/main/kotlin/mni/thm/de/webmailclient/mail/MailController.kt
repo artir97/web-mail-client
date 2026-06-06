@@ -7,6 +7,7 @@ import mni.thm.de.webmailclient.mail.dto.MailUpdate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.security.core.Authentication
 import java.util.UUID
 
 @RestController
@@ -19,50 +20,91 @@ class MailController(
     @ResponseStatus(HttpStatus.CREATED)
     fun createDraft(
         @PathVariable userId: UUID,
-        @Valid @RequestBody mailCreate: MailCreate
+        @Valid @RequestBody mailCreate: MailCreate,
+        authentication: Authentication
     ): MailOutput {
-        return mailService.createDraft(userId, mailCreate)
+        val authenticatedUserId = authentication.principal as UUID
+        return mailService.createDraft(
+            userId,
+            authenticatedUserId,
+            mailCreate
+        )
     }
 
     @GetMapping
     fun findAllByUserId(
-        @PathVariable userId: UUID
+        @PathVariable userId: UUID,
+        authentication: Authentication
     ): Set<MailOutput> {
-        return mailService.findAllByUserId(userId)
+        val authenticatedUserId = authentication.principal as UUID
+        return mailService.findAllByUserId(
+            userId,
+            authenticatedUserId
+        )
     }
 
     @GetMapping("/{mailId}")
     fun findById(
         @PathVariable userId: UUID,
-        @PathVariable mailId: UUID
+        @PathVariable mailId: UUID,
+        authentication: Authentication
     ): MailOutput {
-        return mailService.findById(userId, mailId)
+        val authenticatedUserId = authentication.principal as UUID
+        return mailService.findById(
+            userId,
+            authenticatedUserId,
+            mailId
+        )
     }
 
     @PutMapping("/{mailId}")
     fun updateDraft(
         @PathVariable userId: UUID,
         @PathVariable mailId: UUID,
-        @Valid @RequestBody mailUpdate: MailUpdate
+        @Valid @RequestBody mailUpdate: MailUpdate,
+        authentication: Authentication
     ): MailOutput {
-        return mailService.updateDraft(userId, mailId, mailUpdate)
+        val authenticatedUserId =
+            authentication.principal as UUID
+
+        return mailService.updateDraft(
+            userId,
+            authenticatedUserId,
+            mailId,
+            mailUpdate
+        )
     }
 
     @DeleteMapping("/{mailId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(
         @PathVariable userId: UUID,
-        @PathVariable mailId: UUID
+        @PathVariable mailId: UUID,
+        authentication: Authentication
     ) {
-        mailService.deleteById(userId, mailId)
+        val authenticatedUserId = authentication.principal as UUID
+
+        mailService.deleteById(
+            userId,
+            authenticatedUserId,
+            mailId
+        )
     }
 
     @PostMapping("/{mailId}/send")
     fun sendDraft(
         @PathVariable userId: UUID,
         @PathVariable mailId: UUID,
+        authentication: Authentication
     ): ResponseEntity<MailOutput> {
-        val sentMail = mailService.sendDraft(userId, mailId)
+        val authenticatedUserId = authentication.principal as UUID
+
+        val sentMail = mailService.sendDraft(
+            userId,
+            authenticatedUserId,
+            mailId
+        )
+
         return ResponseEntity.ok(sentMail)
     }
 }

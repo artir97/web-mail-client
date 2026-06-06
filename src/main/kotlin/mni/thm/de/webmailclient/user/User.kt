@@ -9,6 +9,8 @@ import java.util.UUID
 
 @Entity
 @Table(name = "users")
+
+// TODO replace data class with regular class for JPA entity
 data class User (
     @Id
     val id: UUID = UUID.randomUUID(),

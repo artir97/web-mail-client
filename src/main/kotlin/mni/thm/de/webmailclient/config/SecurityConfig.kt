@@ -1,22 +1,24 @@
 package mni.thm.de.webmailclient.config
 
 import mni.thm.de.webmailclient.auth.JwtAuthFilter
-import mni.thm.de.webmailclient.auth.JwtService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.http.SessionCreationPolicy
 
 @Configuration
-class SecurityConfig(
-    private val jwtService: JwtService,
-) {
+class SecurityConfig {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity, jwtAuthFilter: JwtAuthFilter): SecurityFilterChain {
         return http
             .csrf { it.disable() }
+            .sessionManagement {
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
             .headers {
                 it.frameOptions { frameOptions ->
                     frameOptions.disable()
@@ -24,7 +26,7 @@ class SecurityConfig(
             }
             .authorizeHttpRequests {
                 it.requestMatchers("/login").permitAll()
-                it.requestMatchers(org.springframework.http.HttpMethod.POST, "/users").permitAll()
+                it.requestMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
                 it.requestMatchers("/h2-console/**").permitAll()
                 it.anyRequest().authenticated()
             }
