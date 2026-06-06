@@ -40,3 +40,6 @@ out/
 .kotlin
 *.mv.db
 *.trace.db
+
+### Uploads ###
+uploads/
