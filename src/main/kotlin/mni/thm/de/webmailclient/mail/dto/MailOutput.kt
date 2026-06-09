@@ -1,5 +1,7 @@
 package mni.thm.de.webmailclient.mail.dto
 
+import mni.thm.de.webmailclient.attachment.dto.AttachmentOutput
+import mni.thm.de.webmailclient.attachment.dto.toOutput
 import mni.thm.de.webmailclient.mail.Mail
 import mni.thm.de.webmailclient.mail.MailStatus
 import java.time.Instant
@@ -17,6 +19,7 @@ data class MailOutput(
     val status: MailStatus,
     val createdAt: Instant,
     val sentAt: Instant?,
+    val attachments: List<AttachmentOutput>,
 )
 
 fun Mail.toOutput(): MailOutput {
@@ -32,5 +35,6 @@ fun Mail.toOutput(): MailOutput {
         status = status,
         createdAt = createdAt,
         sentAt = sentAt,
+        attachments = attachments.map { it.toOutput() },
     )
 }
