@@ -1,17 +1,17 @@
 @baseUrl = http://localhost:8080
 
 # Real users fetched from the local app on 2026-06-05.
-@userId = 0b23d75b-1582-4774-8f45-62fa80f5bbc9
+@userId = 44e29b0c-f328-4e81-9a53-be563607aba9
 @userId2 = d7ba81de-8f01-41ec-aa67-1bd5de36d18d
 
 # Fresh JWTs from the local app. Re-run the login requests when they expire.
-@tokenA = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIwYjIzZDc1Yi0xNTgyLTQ3NzQtOGY0NS02MmZhODBmNWJiYzkiLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGV4YW1wbGUuY29tIiwiaWF0IjoxNzgwNzU0MTE5LCJleHAiOjE3ODA3NTc3MTl9.BjNqLzlNxrETKxMtyuL5_aWZ-YxfCDRHGnNyRpS_nbo-yd2Buhg-gMsVMyiabW-r
+@tokenA = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0NGUyOWIwYy1mMzI4LTRlODEtOWE1My1iZTU2MzYwN2FiYTkiLCJlbWFpbCI6Im1heC5tdXN0ZXJtYW5uQGV4YW1wbGUuY29tIiwiaWF0IjoxNzgwOTkyMTQyLCJleHAiOjE3ODA5OTU3NDJ9.wDIt9HJVfq3-Ici3u_g9vPOyC9w6U2mvL1PyV--WtPg4gZipAjWb-lpOOwHdTx3I
 @tokenB = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJkN2JhODFkZS04ZjAxLTQxZWMtYWE2Ny0xYmQ1ZGUzNmQxOGQiLCJlbWFpbCI6Im1heDIubXVzdGVybWFubkBleGFtcGxlLmNvbSIsImlhdCI6MTc4MDc0Nzc4NywiZXhwIjoxNzgwNzUxMzg3fQ.O3mKeVb5m0UwhgGzUGt26kyG2rGgqXMJ_JBbVUq3kz64jt9qRYb0oNbkzHQyf5zJ
 
 # Existing draft for User A. After request 09, copy the returned id here
 # when you want the later mail-id requests to use the newly created draft.
-@mailId = 83168cc1-48ff-468e-847e-0537ca86e105
-@draftId = 83168cc1-48ff-468e-847e-0537ca86e105
+@mailId = 5fcef51e-b574-483e-a01d-74b8a6faf7b7
+@draftId = 5fcef51e-b574-483e-a01d-74b8a6faf7b7
 
 @userAEmail = max.mustermann@example.com
 @userAPassword = Password123!

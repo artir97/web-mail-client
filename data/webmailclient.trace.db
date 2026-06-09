@@ -410,3 +410,7 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: /Users/artirguri
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:291)
 	... 56 more
+2026-06-09 10:05:37.027238+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "UPLOADS" nicht gefunden
+Table "UPLOADS" not found; SQL statement:
+SELECT * FROM uploads [42102-240]
