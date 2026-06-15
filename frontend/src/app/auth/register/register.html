@@ -47,20 +47,20 @@
       required
     />
 
-    <button type="submit" [disabled]="isLoading">
-      @if (isLoading) {
+    <button type="submit" [disabled]="isLoading()">
+      @if (isLoading()) {
         Registering...
       } @else {
         Register
       }
     </button>
 
-    @if (successMessage) {
-      <p class="success">{{ successMessage }}</p>
+    @if (successMessage()) {
+      <p class="success">{{ successMessage() }}</p>
     }
 
-    @if (errorMessage) {
-      <p class="error">{{ errorMessage }}</p>
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
     }
 
   </form>

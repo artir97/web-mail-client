@@ -29,9 +29,23 @@
 }
 
 .success {
-  color: green;
+  margin-top: 16px;
+  padding: 10px 12px;
+  color: #17633a;
+  background-color: #e9f8ef;
+  border: 1px solid #9bd9b4;
+  border-radius: 4px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .error {
-  color: red;
+  margin-top: 16px;
+  padding: 10px 12px;
+  color: #9f1d1d;
+  background-color: #fdecec;
+  border: 1px solid #f0a3a3;
+  border-radius: 4px;
+  font-weight: 600;
+  line-height: 1.4;
 }

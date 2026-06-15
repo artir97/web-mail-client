@@ -1,18 +1,16 @@
-import {Component, inject} from '@angular/core';
-import {AuthService} from '../auth.service';
-import {RegisterRequest} from '../auth.model';
-import {FormsModule} from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { RegisterRequest } from '../auth.model';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    FormsModule
-  ],
+  imports: [FormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
 export class RegisterComponent {
-  private authService = inject(AuthService)
+  private authService = inject(AuthService);
 
   firstName = '';
   lastName = '';
@@ -20,16 +18,20 @@ export class RegisterComponent {
   password = '';
   confirmPassword = '';
 
-  successMessage = '';
-  errorMessage = '';
-  isLoading = false;
+  successMessage = signal('');
+  errorMessage = signal('');
+  isLoading = signal(false);
 
   register() {
-    this.successMessage = '';
-    this.errorMessage = '';
+    if (this.isLoading()) {
+      return;
+    }
 
-    if(this.password != this.confirmPassword){
-      this.errorMessage = 'Passwords do not match';
+    this.successMessage.set('');
+    this.errorMessage.set('');
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage.set('Passwords do not match.');
       return;
     }
 
@@ -37,13 +39,16 @@ export class RegisterComponent {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      password: this.password
+      password: this.password,
     };
+
+    this.isLoading.set(true);
 
     this.authService.register(registerRequest).subscribe({
       next: () => {
-        this.successMessage = 'User created successfully.';
-        this.errorMessage = '';
+        this.successMessage.set('User created successfully. You can now log in.');
+        this.errorMessage.set('');
+        this.isLoading.set(false);
 
         this.firstName = '';
         this.lastName = '';
@@ -51,19 +56,27 @@ export class RegisterComponent {
         this.password = '';
         this.confirmPassword = '';
       },
+
       error: error => {
+        console.log(error);
+
+        this.successMessage.set('');
+        this.isLoading.set(false);
+
         if (error.status === 409) {
-          this.errorMessage = 'This email address is already taken.';
+          this.errorMessage.set('This email address is already taken.');
           return;
         }
 
         if (error.status === 400) {
-          this.errorMessage = 'Please check your input.';
+          this.errorMessage.set(
+            'Password must be at least 8 characters long and contain one letter, one number, and one special character.'
+          );
           return;
         }
 
-        this.errorMessage = 'Registration failed.';
-      }
-    })
+        this.errorMessage.set('Registration failed.');
+      },
+    });
   }
 }
