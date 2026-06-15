@@ -1,1 +1,39 @@
-<p>login works!</p>
+<div class="login-page">
+    <form class="login-form" (ngSubmit)="login()">
+        <h1>Login</h1>
+
+        <label for="email">Email</label>
+        <input
+                id="email"
+                name="email"
+                type="email"
+                [(ngModel)]="email"
+                required
+        />
+
+        <label for="password">Password</label>
+        <input
+                id="password"
+                name="password"
+                type="password"
+                [(ngModel)]="password"
+                required
+        />
+
+        <button type="submit" [disabled]="isLoading()">
+            @if (isLoading()) {
+                Logging in...
+            } @else {
+                Login
+            }
+        </button>
+
+        @if (successMessage()) {
+            <p class="success">{{ successMessage() }}</p>
+        }
+
+        @if (errorMessage()) {
+            <p class="error">{{ errorMessage() }}</p>
+        }
+    </form>
+</div>
