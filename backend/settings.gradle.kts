@@ -1,1 +1,1 @@
-rootProject.name = "web-mail-client"
+rootProject.name = "backend"
