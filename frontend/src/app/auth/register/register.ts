@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { RegisterRequest } from '../auth.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ import { RegisterRequest } from '../auth.model';
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   firstName = '';
   lastName = '';
@@ -55,6 +57,8 @@ export class RegisterComponent {
         this.email = '';
         this.password = '';
         this.confirmPassword = '';
+
+        this.router.navigate(['/login']);
       },
 
       error: error => {
