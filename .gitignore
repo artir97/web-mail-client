@@ -1,4 +1,5 @@
-### Monorepo generated/local files ###
+HELP.md
+.gradle
 build/
 backend/build/
 data/
@@ -51,3 +52,6 @@ out/
 .kotlin
 *.mv.db
 *.trace.db
+
+### Uploads ###
+uploads/

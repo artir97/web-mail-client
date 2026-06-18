@@ -7,7 +7,9 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import mni.thm.de.webmailclient.attachment.Attachment
 import mni.thm.de.webmailclient.user.User
 import java.time.Instant
 import java.util.UUID
@@ -42,4 +44,7 @@ data class Mail(
 
     val createdAt: Instant = Instant.now(),
     val sentAt: Instant? = null,
+
+    @OneToMany(mappedBy = "mail")
+    val attachments: List<Attachment> = emptyList(),
 )

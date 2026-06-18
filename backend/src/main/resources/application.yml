@@ -3,6 +3,9 @@ spring:
     problemdetails:
       enabled: true
 
+  application:
+    name: WebmailClient
+
   datasource:
     url: jdbc:h2:file:./data/webmailclient
     driver-class-name: org.h2.Driver
