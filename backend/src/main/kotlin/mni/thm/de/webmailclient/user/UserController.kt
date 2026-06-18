@@ -1,5 +1,6 @@
 package mni.thm.de.webmailclient.user
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import mni.thm.de.webmailclient.user.dto.UserCreate
 import mni.thm.de.webmailclient.user.dto.UserOutput
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Tag(
+    name = "User"
+)
 
 @RestController
 @RequestMapping("/users")

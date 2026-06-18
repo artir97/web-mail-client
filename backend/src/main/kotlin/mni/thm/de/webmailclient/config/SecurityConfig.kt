@@ -33,6 +33,8 @@ class SecurityConfig {
                 it.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                 it.requestMatchers("/error").permitAll()
                 it.requestMatchers("/login").permitAll()
+                it.requestMatchers("/v3/api-docs/**").permitAll()
+                it.requestMatchers("/swagger-ui/**").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
                 it.requestMatchers("/h2-console/**").permitAll()
                 it.anyRequest().authenticated()

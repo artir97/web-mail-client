@@ -19,4 +19,12 @@ export class AuthService {
         loginRequest
     )
   }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
 }

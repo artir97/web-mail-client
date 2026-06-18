@@ -27,6 +27,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-maven-noarg")
     implementation("tools.jackson.module:jackson-module-kotlin")
 
+    // OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.22.0")
+
     // Adds jakarta validation api
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
