@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @Tag(
-    name = "User"
+    name = "User",
+    description = "Manage user accounts."
 )
-
 @RestController
 @RequestMapping("/users")
 class UserController(private val userService: UserService) {
-
+    @CreateUserDocumentation
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createUser(
@@ -35,11 +35,13 @@ class UserController(private val userService: UserService) {
         return user.toOutput()
     }
 
+    @GetAllUsersDocumentation
     @GetMapping
     fun getAllUsers(): List<UserOutput> {
         return userService.findAll().map { it.toOutput() }
     }
 
+    @GetUserByIdDocumentation
     @GetMapping("/{id}")
     fun getUserById(
         @PathVariable id: UUID
@@ -47,6 +49,7 @@ class UserController(private val userService: UserService) {
         return userService.findById(id).toOutput()
     }
 
+    @UpdateUserByIdDocumentation
     @PutMapping("/{id}")
     fun updateUserById(
         @PathVariable id: UUID,
@@ -55,6 +58,7 @@ class UserController(private val userService: UserService) {
         return userService.updateById(id, userUpdate).toOutput()
     }
 
+    @DeleteUserByIdDocumentation
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteUserById(
