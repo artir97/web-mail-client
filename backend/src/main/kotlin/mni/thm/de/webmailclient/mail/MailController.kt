@@ -1,5 +1,6 @@
 package mni.thm.de.webmailclient.mail
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import mni.thm.de.webmailclient.mail.dto.MailCreate
 import mni.thm.de.webmailclient.mail.dto.MailOutput
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.security.core.Authentication
 import java.util.UUID
 
+@Tag(
+    name = "Mail",
+    description = "Manage user mails, drafts and sent messages."
+)
 @RestController
 @RequestMapping("/users/{userId}/mails")
 class MailController(
     private val mailService: MailService
 ) {
-
+    @CreateDraftDocumentation
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createDraft(
@@ -31,6 +36,7 @@ class MailController(
         )
     }
 
+    @FindAllMailsDocumentation
     @GetMapping
     fun findAllByUserId(
         @PathVariable userId: UUID,
@@ -43,6 +49,7 @@ class MailController(
         )
     }
 
+    @FindMailByIdDocumentation
     @GetMapping("/{mailId}")
     fun findById(
         @PathVariable userId: UUID,
@@ -57,6 +64,7 @@ class MailController(
         )
     }
 
+    @UpdateDraftDocumentation
     @PutMapping("/{mailId}")
     fun updateDraft(
         @PathVariable userId: UUID,
@@ -75,6 +83,7 @@ class MailController(
         )
     }
 
+    @DeleteMailDocumentation
     @DeleteMapping("/{mailId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(
@@ -91,6 +100,7 @@ class MailController(
         )
     }
 
+    @SendDraftDocumentation
     @PostMapping("/{mailId}/send")
     fun sendDraft(
         @PathVariable userId: UUID,
