@@ -67,3 +67,17 @@ kotlin {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register("helloTask") {
+    group = "hello"
+    description = "A simple hello world task"
+
+    dependsOn("build")
+    println("Executed during the configuration phase")
+    doFirst {
+        println("Executed first during the execution phase")
+    }
+    doLast {
+        println("Executed last during the execution phase")
+    }
+}
