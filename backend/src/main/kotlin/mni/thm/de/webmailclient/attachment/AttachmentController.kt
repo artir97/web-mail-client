@@ -1,5 +1,6 @@
 package mni.thm.de.webmailclient.attachment
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import mni.thm.de.webmailclient.attachment.dto.AttachmentOutput
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,11 +12,17 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
+
+@Tag(
+    name = "Attachment",
+    description = "Manage mail attachments."
+)
 @RestController
 @RequestMapping("/users/{userId}/mails/{mailId}/attachments")
 class AttachmentController (
     private val attachmentService: AttachmentService,
 ) {
+    @UploadAttachmentDocumentation
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun uploadAttachment(
